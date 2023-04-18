@@ -38,11 +38,19 @@ function setup() {
   var canvas = createCanvas(divWidth*0.9, divHeight);
   canvas.parent("sketch-container");
 
-  canvas.mouseClicked( function() {
+  canvas.mousePressed( function() {
     if (gameState === 'start') {
       gameState = 'playing';
       loop(); // Start the game loop
-    } 
+    } else if (gameState === 'playing') {
+      // Mouseclick / Tap controls
+      if (!playerJumping && !spacePressed) {
+        playerJumping = true;
+        spacePressed = true;
+        player.vy = -playerJumpHeight/10; // Set player velocity to jump height
+      }
+
+    }
   });
 
   groundY = divHeight - 25; // Set ground Y position
@@ -148,12 +156,6 @@ function draw() {
       text("CLICK TO RESTART", width/2, height/2 + 10);
       gameState = 'start';
       obstacles = [];
-      // player = {
-      //   x: 100,
-      //   y: groundY - 75,
-      //   w: 30,
-      //   h: 30
-      // };
       score = 0;
       spacePressed = false;
       noLoop();
@@ -170,13 +172,4 @@ function keyPressed() {
       player.vy = -playerJumpHeight/10; // Set player velocity to jump height
     }
     return false;
-}
-
-function touchStarted() {
-  if (!playerJumping && !spacePressed) {
-    playerJumping = true;
-    spacePressed = true;
-    player.vy = -playerJumpHeight/10; // Set player velocity to jump height
-  }
-  return false;
 }
