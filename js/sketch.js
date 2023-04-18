@@ -2,7 +2,9 @@ let groundY; // Y position of the ground
 let obstacleWidth = 15; // Width of each obstacle
 let obstacleGap = 50; // Gap between obstacles
 let obstacles = []; // Array to hold all obstacles
-let obstacleSpeed = 5; // Speed at which obstacles move
+let obstacleSpeed = 4; // Speed at which obstacles move
+let obstacleTexts = ["ECHO CHAMBERS", "TOXICITY", "BIAS", "HARASSMENT", "DISCRIMINATION", "CHEATING", "METAGAMING"]; // Texts to display on obstacles
+
 
 let player; // Object to hold player position and size
 let playerJumping = false; // Flag to check if player is jumping
@@ -80,7 +82,9 @@ function draw() {
     // Add a new obstacle if necessary
     if (frameCount % obstacleGap == 0) {
       let obstacleHeight = random(35, 70);
-      obstacles.push({x: width + obstacleWidth/2, y: groundY - obstacleHeight/2, h: obstacleHeight});
+      let obstacleText = obstacleTexts[floor(random(obstacleTexts.length))];
+
+      obstacles.push({x: width + obstacleWidth/2, y: groundY - obstacleHeight/2, h: obstacleHeight,  text: obstacleText});
     }
     
     // Move and draw all obstacles
@@ -88,7 +92,10 @@ function draw() {
       obstacles[i].x -= obstacleSpeed;
       fill(128,128,128);
       rect(obstacles[i].x, obstacles[i].y, obstacleWidth, obstacles[i].h);
-      
+      textSize(18);
+      textAlign(CENTER, TOP);
+      fill(0);
+      text(obstacles[i].text, obstacles[i].x, obstacles[i].y + obstacles[i].h/2 + 8);
       // Remove obstacles that are off the screen
       if (obstacles[i].x < -obstacleWidth/2) {
         obstacles.splice(i, 1);

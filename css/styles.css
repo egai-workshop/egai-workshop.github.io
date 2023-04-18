@@ -1177,6 +1177,16 @@ input[type='checkbox'] {
 	position: relative;
 }
 
+.cover{
+
+	object-fit: cover;
+	
+	/* width: 50px; */
+		
+	/* height: 50px; */
+	
+	}
+
 /* Video Play Button */
 .basic-3 .video-play-button {
 	position: absolute;
@@ -1353,6 +1363,7 @@ input[type='checkbox'] {
 /* Hover Animation */
 .basic-4 .image-wrapper {
 	overflow: hidden;
+	object-fit: cover;
 	margin-bottom: 1.5rem;
 	border-radius: 50%;
 }
