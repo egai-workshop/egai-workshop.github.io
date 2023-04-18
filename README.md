@@ -1,4 +1,3 @@
-# EGAI @ ECAI
-Landing page for the workshop on Ethics in Game AI (EGAI @ ECAI).
+# EGAI @ ECAI 2023 Webpage
 
-[egai-workshop.github.io](https://egai-workshop.github.io/)
+[https://egai-workshop.github.io/](https://egai-workshop.github.io/)
