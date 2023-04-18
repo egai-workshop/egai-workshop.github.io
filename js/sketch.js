@@ -44,7 +44,7 @@ function setup() {
       loop(); // Start the game loop
     } 
   });
-  
+
   groundY = divHeight - 25; // Set ground Y position
   rectMode(CENTER);
   strokeWeight(0.0);
@@ -170,4 +170,13 @@ function keyPressed() {
       player.vy = -playerJumpHeight/10; // Set player velocity to jump height
     }
     return false;
+}
+
+function touchStarted() {
+  if (!playerJumping && !spacePressed) {
+    playerJumping = true;
+    spacePressed = true;
+    player.vy = -playerJumpHeight/10; // Set player velocity to jump height
+  }
+  return false;
 }
