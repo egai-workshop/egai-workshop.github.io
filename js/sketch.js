@@ -20,10 +20,22 @@ let happyCodingFont;
 
 function preload() {
   happyCodingFont = loadFont('https://happycoding.io/fonts/happycoding/happycoding.ttf');
+
+}
+
+function windowResized() {
+  var divHeight = document.getElementById('welcome').clientHeight;
+  var divWidth = document.getElementById('welcome').clientWidth;
+  resizeCanvas(divWidth*0.9, divHeight);
+  groundY = divHeight - 25; // Set ground Y position
+
 }
 
 function setup() {
-  var canvas = createCanvas(500, 300);
+  var divHeight = document.getElementById('welcome').clientHeight;
+  var divWidth = document.getElementById('welcome').clientWidth;
+  
+  var canvas = createCanvas(divWidth*0.9, divHeight);
   canvas.parent("sketch-container");
 
   canvas.mouseClicked( function() {
@@ -33,7 +45,7 @@ function setup() {
     } 
   });
   
-  groundY = height - 25; // Set ground Y position
+  groundY = divHeight - 25; // Set ground Y position
   rectMode(CENTER);
   strokeWeight(0.0);
 
