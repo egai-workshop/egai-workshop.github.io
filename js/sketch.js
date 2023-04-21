@@ -108,27 +108,22 @@ function draw() {
     if (frameCount % obstacleGap == 0) {
       let obstacleHeight = random(35, 70);
       let obstacleText = getRandomObstacleText();
-
-      obstacles.push({x: width + obstacleWidth/2, y: groundY - obstacleHeight/2, h: obstacleHeight,  text: obstacleText, passed: false});
+      // {x: width + obstacleWidth/2, y: groundY - obstacleHeight/2, h: obstacleHeight,  text: obstacleText, passed: false}
+      obstacles.push( new Obstacle( width + obstacleWidth/2, groundY - obstacleHeight/2, obstacleWidth, obstacleHeight, obstacleText) );
     }
     
     // Move and draw all obstacles
     for (let i = obstacles.length - 1; i >= 0; i--) {
-      obstacles[i].x -= obstacleSpeed;
-      fill(128,128,128);
-      rect(obstacles[i].x, obstacles[i].y, obstacleWidth, obstacles[i].h);
-      textSize(18);
-      textAlign(CENTER, TOP);
-      fill(0);
-      text(obstacles[i].text, obstacles[i].x, obstacles[i].y + obstacles[i].h/2 + 8);
+      let o = obstacles[i];
+      o.x -= obstacleSpeed;
+      o.show();
       // increment score if obstacle behind player
-      if (obstacles[i].x < player.x && obstacles[i].passed === false) {
-        obstacles[i].passed = true;
-        score = score + 1;
-
+      if (o.x < player.x && o.passed === false) {
+        o.passed = true;
+        score++;
       }
       // Remove obstacles that are off the screen
-      if (obstacles[i].x < -obstacleWidth/2) {
+      if (o.x < -obstacleWidth/2) {
         obstacles.splice(i, 1);
       }
     }
@@ -225,5 +220,27 @@ class Player {
     stroke(0); // Outline colour
     ellipse(this.x, this.y, this.w, this.h); // Player shape
     pop();
+  }
+}
+// {x: width + obstacleWidth/2, y: groundY - obstacleHeight/2, h: obstacleHeight,  text: obstacleText, passed: false}
+class Obstacle {
+
+  constructor(x, y, w, h, text) {
+    this.x = x;
+    this.y = y;
+    this.w = w;
+    this.h = h;
+    this.text = text;
+    this.passed = false;
+  }
+
+  show() {
+    // Draw the obstacle
+    fill(128,128,128);
+    rect(this.x, this.y, this.w, this.h);
+    textSize(18);
+    textAlign(CENTER, TOP);
+    fill(0);
+    text(this.text, this.x, this.y + this.h/2 + 8);
   }
 }
