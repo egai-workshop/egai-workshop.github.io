@@ -37,10 +37,12 @@ function setup() {
   
   var canvas = createCanvas(divWidth*0.9, divHeight);
   canvas.parent("sketch-container");
+  var c = select('#sketch-container');
 
   canvas.mousePressed( function() {
     if (gameState === 'start') {
       gameState = 'playing';
+      c.addClass('playing');
       loop(); // Start the game loop
     } else if (gameState === 'playing') {
       // Mouseclick / Tap controls
@@ -156,13 +158,16 @@ function draw() {
       obstacles = [];
       score = 0;
       spacePressed = false;
+      var c = select('#sketch-container');
+
+      c.removeClass('playing');
+
       noLoop();
     }
 
   }
   
 }
-
 
 function keyPressed() {
     // Check for player jump
@@ -172,7 +177,7 @@ function keyPressed() {
       spacePressed = true;
       player.vy = -playerJumpSpeed; // Set player velocity to jump speed
     }
-    return false;
+    // return false;
 }
 
 function keyReleased() {

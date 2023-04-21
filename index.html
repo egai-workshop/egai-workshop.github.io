@@ -40,7 +40,9 @@
 <body data-spy="scroll" data-target=".fixed-top">
     <!-- script that prevents default space bar scrolling to improve game experience. maybe reconsider. -->
     <script>window.addEventListener('keydown', function(e) {
-        if(e.keyCode == 32 && e.target == document.body) {
+        const isPlaying = document.getElementsByClassName("playing").length;
+
+        if(e.keyCode == 32 && e.target == document.body && isPlaying == 1) {
             e.preventDefault();
         }
     });</script>
