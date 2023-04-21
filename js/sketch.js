@@ -18,15 +18,21 @@ let playerGravity = 0.8; // Increased gravity strength
 let spacePressed = false; // Flag to check if spacebar is pressed
 let gameState = 'start'; // Set initial game state to 'start'
 
+let score = 0;
+
+var pScore = 0;
 
 let happyCodingFont;
 
 function preload() {
   happyCodingFont = loadFont('https://happycoding.io/fonts/happycoding/happycoding.ttf');
+  PixelColeco = loadFont('https://fonts.cdnfonts.com/s/32398/TheGoodMonolith.woff'); 
 
 }
 
 function setup() {
+  textFont(happyCodingFont);
+
   var divHeight = document.getElementById('welcome').clientHeight;
   var divWidth = document.getElementById('welcome').clientWidth;
   
@@ -53,13 +59,7 @@ function setup() {
   strokeWeight(0.0);
 
   // Initialize player object
-  player = {
-    x: 100,
-    y: groundY - 75,
-    w: 20,
-    h: 20,
-    vy: 0 // Y velocity of the player
-  };
+  player = new Player(100, groundY - 75, 20, 20, 0);
 }
 
 function checkCollisions() {
@@ -81,7 +81,6 @@ function draw() {
 
   // Draw "Click to start" message if game has not started
   if (gameState === 'start') {
-    textFont(happyCodingFont);
     fill(100,100,100);
 
     textAlign(CENTER);
@@ -90,7 +89,18 @@ function draw() {
     return; // Exit draw function without running rest of code
   } else if (gameState === 'playing') {
 
-     // Draw the ground
+    // display the score
+    push();
+    fill(52,52,52);
+    textAlign(CENTER, TOP);
+    textSize(16);
+    textStyle(BOLD);
+    scoreText = "SCORE: ";
+    textFont(PixelColeco);
+    text(scoreText + score, 40, 5);
+    pop();
+
+    // Draw the ground
     fill(192,192,192);
     rect(width/2, groundY, width, 50);
     
@@ -99,7 +109,7 @@ function draw() {
       let obstacleHeight = random(35, 70);
       let obstacleText = getRandomObstacleText();
 
-      obstacles.push({x: width + obstacleWidth/2, y: groundY - obstacleHeight/2, h: obstacleHeight,  text: obstacleText});
+      obstacles.push({x: width + obstacleWidth/2, y: groundY - obstacleHeight/2, h: obstacleHeight,  text: obstacleText, passed: false});
     }
     
     // Move and draw all obstacles
@@ -111,6 +121,12 @@ function draw() {
       textAlign(CENTER, TOP);
       fill(0);
       text(obstacles[i].text, obstacles[i].x, obstacles[i].y + obstacles[i].h/2 + 8);
+      // increment score if obstacle behind player
+      if (obstacles[i].x < player.x && obstacles[i].passed === false) {
+        obstacles[i].passed = true;
+        score = score + 1;
+
+      }
       // Remove obstacles that are off the screen
       if (obstacles[i].x < -obstacleWidth/2) {
         obstacles.splice(i, 1);
@@ -130,17 +146,10 @@ function draw() {
     }
 
     // Draw the player
-    push();
-    fill(175);
-    strokeWeight(0.1 );
-    stroke(0);
-    ellipse(player.x, player.y, player.w, player.h);
-    pop();
+    player.show();
 
     // Check for collisions
     if (checkCollisions()) {
-      textFont(happyCodingFont);
-
       // Handle collision
       fill(100, 100, 100);
 
@@ -155,6 +164,7 @@ function draw() {
       spacePressed = false;
       noLoop();
     }
+
   }
   
 }
@@ -166,7 +176,6 @@ function keyPressed() {
       spacePressed = true;
       // player.vy = -playerJumpHeight/10; // Set player velocity to jump height
       player.vy = -playerJumpSpeed; // Set player velocity to jump speed
-
     }
     return false;
 }
@@ -196,4 +205,25 @@ function windowResized() {
   resizeCanvas(divWidth*0.9, divHeight);
   groundY = divHeight - 25; // Set ground Y position
 
+}
+
+class Player {
+
+  constructor(x, y, w, h, vy) {
+    this.x = x;
+    this.y = y;
+    this.w = w;
+    this.h = h;
+    this.vy = vy; // Y velocity of the player
+  }
+
+  show() {
+    // Draw the player
+    push();
+    fill(175); // Player colour fill
+    strokeWeight(0.1); // Outline thickness
+    stroke(0); // Outline colour
+    ellipse(this.x, this.y, this.w, this.h); // Player shape
+    pop();
+  }
 }
