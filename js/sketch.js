@@ -3,8 +3,8 @@ let obstacleWidth = 15; // Width of each obstacle
 let obstacleGap = 50; // Gap between obstacles
 let obstacles = []; // Array to hold all obstacles
 let obstacleSpeed = 4; // Speed at which obstacles move
-let obstacleTexts = ["ECHO CHAMBERS", "TOXICITY", "BIAS", "HARASSMENT", "DISCRIMINATION", "CHEATING", "METAGAMING"]; // Texts to display on obstacles
-
+let obstacleTexts = ["ECHO CHAMBERS", "TOXICITY", "BIAS", "HARASSMENT", "DISCRIMINATION", "CHEATING", "UNFAIRNESS", "MANIPULATION"]; // Texts to display on obstacles
+let obstaclesUsed = []; // Array to hold all used obstacles
 
 let player; // Object to hold player position and size
 let playerJumping = false; // Flag to check if player is jumping
@@ -102,7 +102,7 @@ function draw() {
     // Add a new obstacle if necessary
     if (frameCount % obstacleGap == 0) {
       let obstacleHeight = random(35, 70);
-      let obstacleText = obstacleTexts[floor(random(obstacleTexts.length))];
+      let obstacleText = getRandomObstacleText();
 
       obstacles.push({x: width + obstacleWidth/2, y: groundY - obstacleHeight/2, h: obstacleHeight,  text: obstacleText});
     }
@@ -172,4 +172,23 @@ function keyPressed() {
       player.vy = -playerJumpHeight/10; // Set player velocity to jump height
     }
     return false;
+}
+
+function getRandomObstacleText() {
+  // Check if all obstacles have been used
+  if (obstaclesUsed.length === obstacleTexts.length) {
+    // Reset used obstacles array
+    obstaclesUsed = [];
+  }
+  
+  // Get a random obstacle text that has not been used yet
+  let obstacleText;
+  do {
+    obstacleText = obstacleTexts[floor(random(obstacleTexts.length))];
+  } while (obstaclesUsed.includes(obstacleText));
+  
+  // Add used obstacle to array
+  obstaclesUsed.push(obstacleText);
+  
+  return obstacleText;
 }
