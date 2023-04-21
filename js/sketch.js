@@ -8,9 +8,12 @@ let obstaclesUsed = []; // Array to hold all used obstacles
 
 let player; // Object to hold player position and size
 let playerJumping = false; // Flag to check if player is jumping
-let playerJumpHeight = 100; // Height of player jump
-let playerJumpSpeed = 50; // Speed of player jump
-let playerGravity = 0.5; // Strength of gravity
+let playerJumpHeight = 150; // Increased jump height
+let playerJumpSpeed = 15; // Reduced jump speed
+// let playerJumpHeight = 100; // Height of player jump
+// let playerJumpSpeed = 50; // Speed of player jump
+// let playerGravity = 0.5; // Strength of gravity
+let playerGravity = 0.8; // Increased gravity strength
 
 let spacePressed = false; // Flag to check if spacebar is pressed
 let gameState = 'start'; // Set initial game state to 'start'
@@ -20,14 +23,6 @@ let happyCodingFont;
 
 function preload() {
   happyCodingFont = loadFont('https://happycoding.io/fonts/happycoding/happycoding.ttf');
-
-}
-
-function windowResized() {
-  var divHeight = document.getElementById('welcome').clientHeight;
-  var divWidth = document.getElementById('welcome').clientWidth;
-  resizeCanvas(divWidth*0.9, divHeight);
-  groundY = divHeight - 25; // Set ground Y position
 
 }
 
@@ -169,7 +164,9 @@ function keyPressed() {
     if (keyCode === 32 && !playerJumping && !spacePressed) {
       playerJumping = true;
       spacePressed = true;
-      player.vy = -playerJumpHeight/10; // Set player velocity to jump height
+      // player.vy = -playerJumpHeight/10; // Set player velocity to jump height
+      player.vy = -playerJumpSpeed; // Set player velocity to jump speed
+
     }
     return false;
 }
@@ -191,4 +188,12 @@ function getRandomObstacleText() {
   obstaclesUsed.push(obstacleText);
   
   return obstacleText;
+}
+
+function windowResized() {
+  var divHeight = document.getElementById('welcome').clientHeight;
+  var divWidth = document.getElementById('welcome').clientWidth;
+  resizeCanvas(divWidth*0.9, divHeight);
+  groundY = divHeight - 25; // Set ground Y position
+
 }
