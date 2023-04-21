@@ -10,12 +10,11 @@ let player; // Object to hold player position and size
 let playerJumping = false; // Flag to check if player is jumping
 let playerJumpHeight = 150; // Increased jump height
 let playerJumpSpeed = 15; // Reduced jump speed
-// let playerJumpHeight = 100; // Height of player jump
-// let playerJumpSpeed = 50; // Speed of player jump
-// let playerGravity = 0.5; // Strength of gravity
+let playerJumpDuration = 0;
 let playerGravity = 0.8; // Increased gravity strength
 
 let spacePressed = false; // Flag to check if spacebar is pressed
+
 let gameState = 'start'; // Set initial game state to 'start'
 
 let score = 0;
@@ -164,15 +163,25 @@ function draw() {
   
 }
 
+
 function keyPressed() {
     // Check for player jump
     if (keyCode === 32 && !playerJumping && !spacePressed) {
+      playerJumpDuration = 0;
       playerJumping = true;
       spacePressed = true;
-      // player.vy = -playerJumpHeight/10; // Set player velocity to jump height
       player.vy = -playerJumpSpeed; // Set player velocity to jump speed
     }
     return false;
+}
+
+function keyReleased() {
+  if (keyCode === 32 && playerJumping) {
+    playerJumping = false;
+    playerJumpHeight = map(playerJumpDuration, 0, 500, 0, 20);
+    // player.jump(jumpHeight);
+  }
+  return false
 }
 
 function getRandomObstacleText() {
