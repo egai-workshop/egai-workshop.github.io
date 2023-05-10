@@ -229,8 +229,8 @@ class Player {
   show() {
     // Draw the player
     push();
-    fill(175); // Player colour fill
-    strokeWeight(0.1); // Outline thickness
+    fill(185); // Player colour fill
+    strokeWeight(0.4); // Outline thickness
     stroke(0); // Outline colour
     ellipse(this.x, this.y, this.w, this.h); // Player shape
     pop();
@@ -250,11 +250,15 @@ class Obstacle {
 
   show() {
     // Draw the obstacle
+    push();
     fill(128,128,128);
+    strokeWeight(0.4); // Outline thickness
+    stroke(0); // Outline colour
     rect(this.x, this.y, this.w, this.h);
     textSize(18);
     textAlign(CENTER, TOP);
     fill(0);
     text(this.text, this.x, this.y + this.h/2 + 8);
+    pop();
   }
 }
