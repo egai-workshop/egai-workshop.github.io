@@ -55,6 +55,9 @@ body, p {
 	font: 400 0.875rem/1.375rem "Raleway", sans-serif;
 }
 
+.p-vlarge {
+	font: 400 1.25rem/1.75rem "Raleway", sans-serif;
+}
 .p-large {
 	font: 400 1rem/1.5rem "Raleway", sans-serif;
 }
